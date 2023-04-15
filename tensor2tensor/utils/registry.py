@@ -237,6 +237,10 @@ class Registry(object):
     Returns:
       decorated callback, or callback generated a decorated function.
     """
+    # 设计了半天就是，如果注册的时候装饰器那里有个参数字符串，就重定义注册时使用的名字，以该字符串作为注册字典的key
+    # 如果没有字符串作为参数(调用时没有括号)，或者字符串为None(调用时加括号)，则使用默认的值(调用self.default_key)作为注册字典的key
+
+    # ps 这里的注册字典其实就是这个类本身，这个类通过实现了set等方法将自己做成一个类似于字典的形式
 
     def decorator(value, key):
       self[key] = value
@@ -247,7 +251,8 @@ class Registry(object):
       return decorator(value=key_or_value, key=None)
     else:
       return lambda value: decorator(value, key=key_or_value)
-
+       # 制作一个函数f(value, key)，然后根据python中所有函数都是对象的思想，令这个f()函数的key=key_or_value，然后将这个f()返回
+       
   def __getitem__(self, key):
     if key not in self:
       raise KeyError("%s never registered with registry %s. Available:\n %s" %

@@ -224,6 +224,7 @@ def main(_):
 def generate_data_for_problem(problem):
   """Generate data for a problem in _SUPPORTED_PROBLEM_GENERATORS."""
   training_gen, dev_gen, test_gen = _SUPPORTED_PROBLEM_GENERATORS[problem]
+  # 生成训练集，验证和测试集
 
   num_train_shards = FLAGS.num_shards or 10
   tf.logging.info("Generating training data for %s.", problem)

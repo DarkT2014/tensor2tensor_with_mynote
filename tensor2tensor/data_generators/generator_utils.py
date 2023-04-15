@@ -384,6 +384,7 @@ def generate_lines_for_vocab(tmp_dir, sources, file_byte_budget=1e6):
     url = source[0]
     filename = os.path.basename(url)
     compressed_file = maybe_download(tmp_dir, filename, url)
+    #compressed_file is str of path
 
     for lang_file in source[1]:
       tf.logging.info("Reading file: %s" % lang_file)

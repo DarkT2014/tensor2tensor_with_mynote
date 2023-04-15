@@ -27,6 +27,7 @@ import time
 
 import numpy as np
 import six
+import sys
 
 from six.moves import input  # pylint: disable=redefined-builtin
 
@@ -665,9 +666,16 @@ def decode_interactively(estimator, hparams, decode_hp, checkpoint_path=None):
       if decode_hp.identity_output:
         tf.logging.info(" ".join(map(str, result["outputs"].flatten())))
       else:
-        tf.logging.info(
-            targets_vocab.decode(_save_until_eos(
-                result["outputs"], skip_eos_postprocess)))
+        # tf.logging.info(
+        #     targets_vocab.decode(_save_until_eos(
+        #         result["outputs"], skip_eos_postprocess)))
+
+        # print result for tsk web service.
+        tmpres = targets_vocab.decode(_save_until_eos(
+                result["outputs"], skip_eos_postprocess))
+        tf.logging.info(tmpres)
+        print(tmpres)
+        sys.stdout.flush()
 
 
 def _decode_batch_input_fn(num_decode_batches, sorted_inputs, vocabulary,

@@ -213,9 +213,12 @@ class TranslateEnzhWmt32k(translate.TranslateProblem):
   def generate_encoded_samples(self, data_dir, tmp_dir, dataset_split):
     train = dataset_split == problem.DatasetSplit.TRAIN
     train_dataset = self.get_training_dataset(tmp_dir)
+    # dataset = [ list1, list2, ... listx ]   list ---> [url, [filename1, filename2, ...]]
     datasets = train_dataset if train else _NC_TEST_DATASETS
     source_datasets = [[item[0], [item[1][0]]] for item in train_dataset]
+    #source_datasets = [ [url , [filename0] ],      ]
     target_datasets = [[item[0], [item[1][1]]] for item in train_dataset]
+    #target_datasets  [   [url,   [filename1]   ]         ]
     source_vocab = generator_utils.get_or_generate_vocab(
         data_dir,
         tmp_dir,
